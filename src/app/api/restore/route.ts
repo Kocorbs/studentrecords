@@ -36,7 +36,8 @@ export async function POST(request: NextRequest) {
                     so_number: student.so_number,
                     date_issued: student.date_issued,
                     series_year: student.series_year,
-                    lrn: student.lrn
+                    lrn: student.lrn,
+                    grade_level: student.grade_level
                 }
             });
         }

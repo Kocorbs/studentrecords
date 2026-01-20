@@ -146,6 +146,7 @@ const StudentList: React.FC = () => {
                         <tr>
                             <th>Student Name</th>
                             <th>ID Number</th>
+                            <th>Grade Level</th>
                             <th>Category</th>
                             <th>Last Updated</th>
                             <th style={{ textAlign: 'right' }}>Actions</th>
@@ -162,6 +163,9 @@ const StudentList: React.FC = () => {
                                         <code style={{ background: 'var(--bg-content)', padding: '4px 8px', borderRadius: '4px', fontSize: '13px', fontWeight: '600' }}>
                                             {student.username}
                                         </code>
+                                    </td>
+                                    <td style={{ fontWeight: '600', color: 'var(--info)' }}>
+                                        {student.grade_level || 'N/A'}
                                     </td>
                                     <td>
                                         <span style={{
@@ -216,7 +220,7 @@ const StudentList: React.FC = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5} style={{ textAlign: 'center', padding: '64px', color: 'var(--text-muted)' }}>
+                                <td colSpan={6} style={{ textAlign: 'center', padding: '64px', color: 'var(--text-muted)' }}>
                                     <div style={{ fontSize: '48px', marginBottom: '16px' }}>📭</div>
                                     No student records found matching your criteria.
                                 </td>

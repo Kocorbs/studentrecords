@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 // Helper to hash password
 const hashPassword = (password: string) => {
-    return crypto.createHash('sha256').update(password).digest('hex');
+    return bcrypt.hashSync(password, 10);
 };
 
 // GET /api/users - Get all users

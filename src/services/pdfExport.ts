@@ -23,6 +23,7 @@ class PDFExportService {
             student.id.toString(),
             student.username,
             `${student.first_name} ${student.middle_name ? student.middle_name + ' ' : ''}${student.last_name}`,
+            student.grade_level || 'N/A',
             student.category,
             formatDate(student.created_at),
             formatDate(student.updated_at)
@@ -30,7 +31,7 @@ class PDFExportService {
 
         // Create table
         autoTable(doc, {
-            head: [['ID', 'ID Number', 'Full Name', 'Status', 'Created', 'Updated']],
+            head: [['ID', 'ID Number', 'Full Name', 'Grade Level', 'Status', 'Created', 'Updated']],
             body: tableData,
             startY: 45,
             theme: 'grid',
@@ -72,91 +73,113 @@ class PDFExportService {
     }
 
     async exportStudentDetails(student: Student): Promise<void> {
-        const doc = new jsPDF();
+        try {
+            const doc = new jsPDF();
 
-        // Add header
-        doc.setFontSize(18);
-        doc.setTextColor(128, 0, 0);
-        doc.text(`Student Record: ${student.title}`, 105, 20, { align: 'center' });
+            // Add header
+            doc.setFontSize(18);
+            doc.setTextColor(128, 0, 0); // Maroon color
+            doc.text(`ST. PETER'S COLLEGE`, 105, 20, { align: 'center' });
 
-        doc.setFontSize(11);
-        doc.setTextColor(100, 100, 100);
-        doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 30, { align: 'center' });
+            doc.setFontSize(14);
+            doc.text(`Student Academic Record`, 105, 28, { align: 'center' });
 
-        // Student Information
-        const infoY = 45;
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Generated on: ${new Date().toLocaleString()}`, 105, 35, { align: 'center' });
 
-        let yPos = infoY;
-        const lineHeight = 8;
+            // Horizontal Line
+            doc.setDrawColor(128, 0, 0);
+            doc.line(20, 38, 190, 38);
 
-        // Basic Info
-        doc.setFont('helvetica', 'bold');
-        doc.text('Basic Information:', 20, yPos);
-        yPos += lineHeight + 2;
+            // Student Information
+            let yPos = 50;
+            const lineHeight = 8;
 
-        doc.setFont('helvetica', 'normal');
-        const basicInfo = [
-            ['ID Number:', student.username],
-            ['First Name:', student.first_name],
-            ['Middle Name:', student.middle_name || 'N/A'],
-            ['Last Name:', student.last_name],
-            ['Status:', student.category],
-            ['Created:', formatDate(student.created_at)],
-            ['Last Updated:', formatDate(student.updated_at)]
-        ];
-
-        basicInfo.forEach(([label, value]) => {
-            doc.text(`${label} ${value}`, 25, yPos);
-            yPos += lineHeight;
-        });
-
-        // Graduate Info if applicable
-        if (student.category === 'Graduate') {
-            yPos += lineHeight + 2;
+            // Basic Info Section
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
             doc.setFont('helvetica', 'bold');
-            doc.text('Graduate Information:', 20, yPos);
-            yPos += lineHeight + 2;
+            doc.text('BASIC INFORMATION', 20, yPos);
+            yPos += 8;
 
             doc.setFont('helvetica', 'normal');
-            const gradInfo = [
-                ['Last School Year:', student.last_school_year || 'N/A'],
-                ['Contact Number:', student.contact_number || 'N/A'],
-                ['SO Number:', student.so_number || 'N/A'],
-                ['Date Issued:', student.date_issued || 'N/A'],
-                ['Series Year:', student.series_year || 'N/A'],
-                ['LRN:', student.lrn || 'N/A']
+            doc.setFontSize(11);
+
+            const basicInfo = [
+                ['ID Number:', student.username],
+                ['Full Name:', `${student.first_name} ${student.middle_name || ''} ${student.last_name}`.trim()],
+                ['Grade Level:', student.grade_level || 'N/A'],
+                ['Status:', student.category],
+                ['Created On:', formatDate(student.created_at)],
+                ['Last Updated:', formatDate(student.updated_at)]
             ];
 
-            gradInfo.forEach(([label, value]) => {
-                doc.text(`${label} ${value}`, 25, yPos);
+            basicInfo.forEach(([label, value]) => {
+                doc.setFont('helvetica', 'bold');
+                doc.text(label, 25, yPos);
+                doc.setFont('helvetica', 'normal');
+                doc.text(String(value), 60, yPos);
                 yPos += lineHeight;
             });
+
+            // Graduate Info section if applicable
+            if (student.category === 'Graduate') {
+                yPos += 5;
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text('GRADUATION DETAILS', 20, yPos);
+                yPos += 8;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(11);
+                const gradInfo = [
+                    ['Last School Year:', student.last_school_year || 'N/A'],
+                    ['Contact Number:', student.contact_number || 'N/A'],
+                    ['SO Number:', student.so_number || 'N/A'],
+                    ['Date Issued:', student.date_issued || 'N/A'],
+                    ['Series Year:', student.series_year || 'N/A'],
+                    ['LRN:', student.lrn || 'N/A']
+                ];
+
+                gradInfo.forEach(([label, value]) => {
+                    doc.setFont('helvetica', 'bold');
+                    doc.text(label, 25, yPos);
+                    doc.setFont('helvetica', 'normal');
+                    doc.text(String(value), 65, yPos);
+                    yPos += lineHeight;
+                });
+            }
+
+            // Attachments List if applicable
+            if (student.attachments && student.attachments.length > 0) {
+                yPos += 5;
+                doc.setFontSize(12);
+                doc.setFont('helvetica', 'bold');
+                doc.text(`ATTACHMENTS (${student.attachments.length})`, 20, yPos);
+                yPos += 8;
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                student.attachments.forEach((attachment, index) => {
+                    const fileName = attachment.split('/').pop() || attachment;
+                    doc.text(`${index + 1}. ${fileName}`, 25, yPos);
+                    yPos += 6;
+                });
+            }
+
+            // Add footer
+            doc.setFontSize(9);
+            doc.setTextColor(150, 150, 150);
+            doc.text('This is a computer-generated document from St. Peter\'s College Student Records System.', 105, doc.internal.pageSize.height - 15, { align: 'center' });
+            doc.text('VPC-SRMS © 2026', 105, doc.internal.pageSize.height - 10, { align: 'center' });
+
+            // Save PDF
+            doc.save(`Student_Record_${student.username}_${new Date().getTime()}.pdf`);
+        } catch (error) {
+            console.error('Failed to export student details:', error);
+            throw new Error('Could not generate PDF. Please try again.');
         }
-
-        // Attachments
-        if (student.attachments && student.attachments.length > 0) {
-            yPos += lineHeight + 2;
-            doc.setFont('helvetica', 'bold');
-            doc.text(`Attachments (${student.attachments.length}):`, 20, yPos);
-            yPos += lineHeight + 2;
-
-            doc.setFont('helvetica', 'normal');
-            student.attachments.forEach((attachment, index) => {
-                const fileName = attachment.split('/').pop() || attachment;
-                doc.text(`${index + 1}. ${fileName}`, 25, yPos);
-                yPos += lineHeight;
-            });
-        }
-
-        // Add footer
-        doc.setFontSize(9);
-        doc.setTextColor(150, 150, 150);
-        doc.text('Confidential Student Record - St. Peter\'s College Student Records System', 105, doc.internal.pageSize.height - 10, { align: 'center' });
-
-        // Save PDF
-        doc.save(`student_${student.username}_${new Date().getTime()}.pdf`);
     }
 
     async exportStatistics(stats: Record<string, any>, title: string = 'System Statistics'): Promise<void> {

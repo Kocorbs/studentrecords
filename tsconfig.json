@@ -36,6 +36,7 @@
   },
   "include": [
     "src",
+    "prisma",
     ".next/types/**/*.ts"
   ],
   "exclude": [

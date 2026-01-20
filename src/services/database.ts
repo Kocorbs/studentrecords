@@ -1,4 +1,5 @@
 import { User, Student } from '../types';
+import socketService from './socket';
 
 // API Base URL - Use relative path for Next.js API routes
 const API_URL = '/api';
@@ -183,7 +184,9 @@ class DatabaseService {
         });
 
         if (!response.ok) throw new Error('Failed to create student');
-        return await response.json();
+        const newStudent = await response.json();
+        socketService.triggerStudentChange('created', newStudent);
+        return newStudent;
     }
 
     async updateStudent(id: number, _ownerId: number, updates: Partial<Student>): Promise<Student | null> {
@@ -194,7 +197,9 @@ class DatabaseService {
         });
 
         if (!response.ok) return null;
-        return await response.json();
+        const updatedStudent = await response.json();
+        socketService.triggerStudentChange('updated', updatedStudent);
+        return updatedStudent;
     }
 
     async deleteStudent(id: number, _ownerId: number): Promise<boolean> {
@@ -202,6 +207,9 @@ class DatabaseService {
             method: 'DELETE'
         });
 
+        if (response.ok) {
+            socketService.triggerStudentChange('deleted', { id });
+        }
         return response.ok;
     }
 

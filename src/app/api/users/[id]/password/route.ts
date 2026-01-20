@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
-import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 // Helper to hash password
 const hashPassword = (password: string) => {
-    return crypto.createHash('sha256').update(password).digest('hex');
+    return bcrypt.hashSync(password, 10);
+};
+
+// Helper to verify password
+const verifyPassword = (password: string, hashed: string) => {
+    return bcrypt.compareSync(password, hashed);
 };
 
 // PUT /api/users/[id]/password - Change user password
@@ -26,7 +31,7 @@ export async function PUT(
             );
         }
 
-        if (user.password !== hashPassword(currentPassword)) {
+        if (!verifyPassword(currentPassword, user.password)) {
             return NextResponse.json(
                 { error: 'Current password is incorrect' },
                 { status: 401 }

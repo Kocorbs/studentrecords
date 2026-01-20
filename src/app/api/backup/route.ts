@@ -5,9 +5,7 @@ import prisma from '@/lib/prisma';
 export async function GET() {
     try {
         const users = await prisma.user.findMany();
-        const students = await prisma.student.findMany({
-            include: { grades: true }
-        });
+        const students = await prisma.student.findMany();
 
         const backup = {
             version: '1.0',

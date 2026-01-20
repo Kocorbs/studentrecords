@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { Student } from '../../types';
 import pdfExport from '../../services/pdfExport';
 import { formatDate, copyToClipboard } from '../../utils/helpers';
@@ -26,11 +27,20 @@ const StudentView: React.FC<StudentViewProps> = ({ student, onClose, onEdit }) =
     };
 
     const openFile = (fileName: string) => {
-        alert(`Opening: ${fileName}\n\nIn a real application, this would open the file using the system's default application.`);
+        // Build the full path for the attachment
+        const filePath = fileName.startsWith('/') ? fileName : `/uploads/${fileName}`;
+        window.open(filePath, '_blank');
     };
 
     const printFile = (fileName: string) => {
-        alert(`Printing: ${fileName}\n\nIn a real application, this would send the file to the printer.`);
+        // Build the full path for the attachment
+        const filePath = fileName.startsWith('/') ? fileName : `/uploads/${fileName}`;
+        const printWindow = window.open(filePath, '_blank');
+        if (printWindow) {
+            printWindow.onload = () => {
+                printWindow.print();
+            };
+        }
     };
 
     return (
@@ -116,8 +126,13 @@ const StudentView: React.FC<StudentViewProps> = ({ student, onClose, onEdit }) =
                         {/* School Header Card */}
                         <div className="card" style={{ gridColumn: '1 / -1', background: 'var(--bg-content)', border: '1px solid var(--border-light)' }}>
                             <div className="card-body" style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                                <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden' }}>
-                                    <img src={spcLogo} alt="SPC Logo" style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }} />
+                                <div style={{ width: '80px', height: '80px', borderRadius: '50%', overflow: 'hidden', position: 'relative' }}>
+                                    <Image
+                                        src={spcLogo}
+                                        alt="SPC Logo"
+                                        fill
+                                        style={{ objectFit: 'contain' }}
+                                    />
                                 </div>
                                 <div>
                                     <h1 style={{ color: 'var(--primary)', fontSize: '28px', fontWeight: '900', marginBottom: '4px', letterSpacing: '-0.02em' }}>ST. PETER'S COLLEGE</h1>
@@ -133,6 +148,7 @@ const StudentView: React.FC<StudentViewProps> = ({ student, onClose, onEdit }) =
                                 <div style={{ display: 'grid', gap: '20px' }}>
                                     <DetailItem label="Full Name" value={`${student.first_name} ${student.middle_name || ''} ${student.last_name}`} bold />
                                     <DetailItem label="ID Number" value={student.username} color="var(--primary)" bold />
+                                    <DetailItem label="Grade Level" value={student.grade_level || 'N/A'} color="var(--primary)" bold />
                                     <div>
                                         <div style={{ fontSize: '11px', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>Status</div>
                                         <span style={{

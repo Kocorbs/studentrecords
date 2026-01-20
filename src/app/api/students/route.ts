@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 
         const students = await prisma.student.findMany({
             where,
-            include: { grades: true },
             orderBy: { id: 'desc' }
         });
 
@@ -45,7 +44,7 @@ export async function GET(request: NextRequest) {
 // POST /api/students - Create new student
 export async function POST(request: NextRequest) {
     try {
-        const { grades, ...studentData } = await request.json();
+        const studentData = await request.json();
 
         const data: any = {
             ...studentData,
@@ -53,25 +52,19 @@ export async function POST(request: NextRequest) {
             updated_at: new Date()
         };
 
-        if (grades && Array.isArray(grades)) {
-            data.grades = {
-                create: grades.map((g: any) => ({
-                    subject: g.subject,
-                    grade: g.grade
-                }))
-            };
-        }
-
         const student = await prisma.student.create({
-            data,
-            include: { grades: true }
+            data
         });
 
         return NextResponse.json(student);
     } catch (error) {
         console.error('Create student error:', error);
         return NextResponse.json(
-            { error: 'Failed to create student' },
+            {
+                error: 'Failed to create student',
+                message: error instanceof Error ? error.message : 'Unknown error',
+                details: process.env.NODE_ENV === 'development' ? String(error) : undefined
+            },
             { status: 500 }
         );
     }

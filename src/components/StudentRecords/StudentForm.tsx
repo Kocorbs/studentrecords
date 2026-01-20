@@ -34,9 +34,6 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
     const [existingAttachments, setExistingAttachments] = useState<string[]>(
         student?.attachments || []
     );
-    const [grades, setGrades] = useState<{ subject: string; grade: string }[]>(
-        student?.grades?.map(g => ({ subject: g.subject, grade: g.grade })) || []
-    );
 
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [showGraduateFields, setShowGraduateFields] = useState(
@@ -70,19 +67,6 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
         setExistingAttachments(prev => prev.filter((_, i) => i !== index));
     };
 
-    const handleGradeChange = (index: number, field: 'subject' | 'grade', value: string) => {
-        const newGrades = [...grades];
-        newGrades[index][field] = value;
-        setGrades(newGrades);
-    };
-
-    const addGrade = () => {
-        setGrades([...grades, { subject: '', grade: '' }]);
-    };
-
-    const removeGrade = (index: number) => {
-        setGrades(grades.filter((_, i) => i !== index));
-    };
 
     const validateForm = (): boolean => {
         const newErrors: Record<string, string> = {};
@@ -120,13 +104,12 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                     newAttachmentPaths = await database.uploadFiles(attachments);
                 } catch (uploadError) {
                     console.error('File upload failed:', uploadError);
-                    // Continue without attachments if upload fails
+                    showError('Upload Failed', 'Failed to upload attachments. Please try again.');
+                    return; // Stop the save process if upload fails
                 }
             }
             const allAttachments = [...existingAttachments, ...newAttachmentPaths];
 
-            // Filter out empty grades
-            const validGrades = grades.filter(g => g.subject.trim() && g.grade.trim());
 
             const studentData = {
                 title,
@@ -139,27 +122,25 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                 last_name: formData.last_name,
                 owner_id: currentUser.id,
                 grade_level: formData.grade_level,
-                grades: validGrades as any, // Cast to any to avoid partial type check failure
-                ...(formData.category === 'Graduate' && {
-                    last_school_year: formData.last_school_year,
-                    contact_number: formData.contact_number,
-                    so_number: formData.so_number,
-                    date_issued: formData.date_issued,
-                    series_year: formData.series_year,
-                    lrn: formData.lrn
-                })
+                // Include these even if not Graduate, set to null if needed
+                last_school_year: formData.category === 'Graduate' ? formData.last_school_year : null,
+                contact_number: formData.category === 'Graduate' ? formData.contact_number : null,
+                so_number: formData.category === 'Graduate' ? formData.so_number : null,
+                date_issued: formData.category === 'Graduate' ? formData.date_issued : null,
+                series_year: formData.category === 'Graduate' ? formData.series_year : null,
+                lrn: formData.category === 'Graduate' ? formData.lrn : null
             };
 
             if (isEditMode && student) {
-                const updated = await database.updateStudent(student.id, currentUser.id, studentData);
-                if (updated) {
+                const response = await database.updateStudent(student.id, currentUser.id, studentData as any);
+                if (response) {
                     await showSuccess('Success!', 'Student record updated successfully!');
                     onSuccess();
                 } else {
                     showError('Error', 'Failed to update student record.');
                 }
             } else {
-                const created = await database.createStudent(studentData);
+                const created = await database.createStudent(studentData as any);
                 if (created) {
                     await showSuccess('Success!', 'Student record created successfully!');
                     onSuccess();
@@ -387,68 +368,6 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                         </div>
                     </div>
 
-                    {/* Academic Grades Section */}
-                    <div style={{ marginTop: '20px' }}>
-                        <h3 style={{ color: COLORS.primary, marginBottom: '15px' }}>📊 Academic Grades</h3>
-
-                        <div style={{
-                            backgroundColor: COLORS.card_bg,
-                            padding: '20px',
-                            borderRadius: '4px'
-                        }}>
-                            {grades.map((grade, index) => (
-                                <div key={index} style={{ display: 'flex', gap: '15px', marginBottom: '15px' }}>
-                                    <div style={{ flex: 2 }}>
-                                        <input
-                                            type="text"
-                                            placeholder="Subject (e.g., Mathematics)"
-                                            value={grade.subject}
-                                            onChange={(e) => handleGradeChange(index, 'subject', e.target.value)}
-                                            className="form-control"
-                                        />
-                                    </div>
-                                    <div style={{ flex: 1 }}>
-                                        <input
-                                            type="text"
-                                            placeholder="Grade/Rating"
-                                            value={grade.grade}
-                                            onChange={(e) => handleGradeChange(index, 'grade', e.target.value)}
-                                            className="form-control"
-                                        />
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => removeGrade(index)}
-                                        style={{
-                                            backgroundColor: COLORS.danger,
-                                            color: 'white',
-                                            border: 'none',
-                                            borderRadius: '4px',
-                                            padding: '0 15px',
-                                            cursor: 'pointer'
-                                        }}
-                                    >
-                                        ✕
-                                    </button>
-                                </div>
-                            ))}
-
-                            <button
-                                type="button"
-                                onClick={addGrade}
-                                style={{
-                                    backgroundColor: COLORS.info,
-                                    color: 'white',
-                                    border: 'none',
-                                    padding: '8px 15px',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                ➕ Add Subject
-                            </button>
-                        </div>
-                    </div>
 
                     {/* Attachments Section */}
                     <div style={{ marginTop: '20px' }}>

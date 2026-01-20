@@ -22,22 +22,15 @@ export interface Student {
     owner_id: number;
     created_at: string;
     updated_at: string;
-    grade_level?: string;
-    last_school_year?: string;
-    contact_number?: string;
-    so_number?: string;
-    date_issued?: string;
-    series_year?: string;
-    lrn?: string; // Learner Reference Number
-    grades?: Grade[];
+    grade_level?: string | null;
+    last_school_year?: string | null;
+    contact_number?: string | null;
+    so_number?: string | null;
+    date_issued?: string | null;
+    series_year?: string | null;
+    lrn?: string | null; // Learner Reference Number
 }
 
-export interface Grade {
-    id: number;
-    subject: string;
-    grade: string;
-    student_id: number;
-}
 
 export interface Colors {
     primary: string;

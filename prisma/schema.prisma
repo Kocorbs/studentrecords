@@ -39,13 +39,6 @@ model Student {
   date_issued      String?
   series_year      String?
   lrn              String?
-  grades           Grade[]
+  grade_level      String?
 }
 
-model Grade {
-  id         Int     @id @default(autoincrement())
-  subject    String
-  grade      String
-  student_id Int
-  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
-}
