@@ -1,0 +1,4 @@
+src/App.tsx(2,41): error TS2307: Cannot find module 'react-router-dom' or its corresponding type declarations.
+src/App.tsx(18,53): error TS2741: Property 'children' is missing in type '{}' but required in type 'DashboardLayoutProps'.
+src/components/Auth/Logout.tsx(2,26): error TS2307: Cannot find module 'react-router-dom' or its corresponding type declarations.
+src/components/Auth/PrivateRoute.tsx(2,26): error TS2307: Cannot find module 'react-router-dom' or its corresponding type declarations.

@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  password   String
+  role       String   // 'admin' | 'user'
+  email      String
+  full_name  String
+  created_at DateTime @default(now())
+  last_login DateTime?
+  students   Student[]
+}
+
+model Student {
+  id               Int      @id @default(autoincrement())
+  title            String
+  username         String   // ID Number
+  password         String   // First Name
+  attachments      String[]
+  category         String   // 'Active' | 'Graduate' | 'Inactive'
+  first_name       String
+  middle_name      String
+  last_name        String
+  owner_id         Int
+  owner            User     @relation(fields: [owner_id], references: [id])
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now()) @updatedAt
+  last_school_year String?
+  contact_number   String?
+  so_number        String?
+  date_issued      String?
+  series_year      String?
+  lrn              String?
+  grades           Grade[]
+}
+
+model Grade {
+  id         Int     @id @default(autoincrement())
+  subject    String
+  grade      String
+  student_id Int
+  student    Student @relation(fields: [student_id], references: [id], onDelete: Cascade)
+}

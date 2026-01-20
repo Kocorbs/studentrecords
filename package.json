@@ -1,44 +1,59 @@
 {
-  "name": "student-records-system",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.126",
-    "@types/react": "^19.2.8",
-    "@types/react-dom": "^19.2.3",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "student-records-system",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "@prisma/client": "^5.10.2",
+        "crypto-js": "^4.2.0",
+        "file-saver": "^2.0.5",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.8.1",
+        "next": "^14.1.0",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "sweetalert2": "^11.26.17",
+        "uuid": "^9.0.1"
+    },
+    "scripts": {
+        "dev": "next dev",
+        "build": "prisma generate && next build",
+        "start": "next start",
+        "lint": "next lint",
+        "postinstall": "prisma generate"
+    },
+    "eslintConfig": {
+        "extends": [
+            "next/core-web-vitals"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@types/crypto-js": "^4.2.1",
+        "@types/file-saver": "^2.0.7",
+        "@types/jspdf": "^2.0.0",
+        "@types/node": "^20.11.24",
+        "@types/react": "^18.2.79",
+        "@types/react-dom": "^18.2.25",
+        "@types/uuid": "^9.0.8",
+        "eslint": "^8.57.0",
+        "eslint-config-next": "^14.1.0",
+        "prisma": "^5.10.2",
+        "typescript": "^5.3.3"
+    },
+    "description": "",
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
 }
