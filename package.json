@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "@prisma/client": "^5.10.2",
+        "@prisma/extension-accelerate": "^3.0.1",
         "crypto-js": "^4.2.0",
         "file-saver": "^2.0.5",
         "jspdf": "^2.5.1",
