@@ -21,34 +21,29 @@ export async function POST() {
 async function handleSeed() {
     console.log('🌱 Seed process started...');
     try {
-        const adminExists = await prisma.user.findFirst({
-            where: { username: 'admin' }
+        console.log('👤 Synchronizing admin user...');
+        const user = await prisma.user.upsert({
+            where: { username: 'admin' },
+            update: {
+                password: hashPassword('Admin@123'),
+                role: 'admin',
+                full_name: 'System Administrator',
+            },
+            create: {
+                username: 'admin',
+                password: hashPassword('Admin@123'),
+                role: 'admin',
+                email: 'admin@system.com',
+                full_name: 'System Administrator',
+                created_at: new Date()
+            }
         });
 
-        if (!adminExists) {
-            console.log('👤 Admin user not found. Creating...');
-            await prisma.user.create({
-                data: {
-                    username: 'admin',
-                    password: hashPassword('Admin@123'),
-                    role: 'admin',
-                    email: 'admin@system.com',
-                    full_name: 'System Administrator',
-                    created_at: new Date()
-                }
-            });
-            console.log('✅ Admin user created successfully');
-            return NextResponse.json({
-                success: true,
-                message: 'Admin user created successfully. You can now log in with admin / Admin@123'
-            });
-        } else {
-            console.log('ℹ️ Admin user already exists');
-            return NextResponse.json({
-                success: true,
-                message: 'Admin user already exists'
-            });
-        }
+        console.log('✅ Admin user synchronized successfully:', user.username);
+        return NextResponse.json({
+            success: true,
+            message: 'Admin user synchronized successfully. You can now log in with admin / Admin@123'
+        });
     } catch (error) {
         console.error('❌ Seed error:', error);
 
