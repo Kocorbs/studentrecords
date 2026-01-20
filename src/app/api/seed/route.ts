@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import crypto from 'crypto';
 
+export const maxDuration = 60; // Allow more time for initial database seeding
+
 // Helper to hash password
 const hashPassword = (password: string) => {
     return crypto.createHash('sha256').update(password).digest('hex');
