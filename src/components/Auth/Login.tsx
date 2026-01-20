@@ -76,7 +76,7 @@ const Login: React.FC = () => {
                         />
                     </div>
                     <div className="college-name" style={{ fontSize: '36px', textShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
-                        ST. PETER'S COLLEGE
+                        ST. PETER&apos;S COLLEGE
                     </div>
                     <div className="college-tagline">
                         Excelence in Education • Iligan City

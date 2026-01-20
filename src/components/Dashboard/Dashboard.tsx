@@ -101,7 +101,7 @@ const Dashboard: React.FC = () => {
                         Welcome back, Admin! 👋
                     </h1>
                     <p style={{ opacity: 0.9, fontSize: '16px', maxWidth: '600px', lineHeight: '1.6' }}>
-                        This is your control center for St. Peter's College Student Records.
+                        This is your control center for St. Peter&apos;s College Student Records.
                         Manage students, generate reports, and monitor system activities with ease.
                     </p>
                 </div>
@@ -180,7 +180,7 @@ const Dashboard: React.FC = () => {
                 fontSize: '14px',
                 borderTop: '1px solid var(--border-light)'
             }}>
-                © 2026 St. Peter's College - Student Records Management System
+                © 2026 St. Peter&apos;s College - Student Records Management System
             </div>
         </div>
     );

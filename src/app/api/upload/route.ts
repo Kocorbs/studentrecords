@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 
+// Route segment config - replaces deprecated `export const config`
+export const runtime = 'nodejs'; // Force Node.js runtime for filesystem access
+export const maxDuration = 60; // Max function duration in seconds
+
+// NOTE: This implementation uses the filesystem and will NOT work on Vercel's
+// serverless environment. For production deployment on Vercel, you should:
+// 1. Use Vercel Blob Storage: https://vercel.com/docs/storage/vercel-blob
+// 2. Or use AWS S3, Cloudinary, or similar cloud storage
+// 3. Or use Edge Functions with a different storage strategy
+
 // POST /api/upload - Handle file uploads
 export async function POST(request: NextRequest) {
     try {
