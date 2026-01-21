@@ -113,12 +113,14 @@ const Login: React.FC = () => {
                     )}
 
                     <div className="form-group">
-                        <label className="modern-label">
+                        <label htmlFor="username" className="modern-label">
                             Username
                         </label>
                         <div className="modern-input-group">
                             <span className="input-icon">👤</span>
                             <input
+                                id="username"
+                                name="username"
                                 type="text"
                                 className="modern-input"
                                 value={username}
@@ -130,12 +132,14 @@ const Login: React.FC = () => {
                     </div>
 
                     <div className="form-group">
-                        <label className="modern-label">
+                        <label htmlFor="password" className="modern-label">
                             Password
                         </label>
                         <div className="modern-input-group">
                             <span className="input-icon">🔒</span>
                             <input
+                                id="password"
+                                name="password"
                                 type={showPassword ? 'text' : 'password'}
                                 className="modern-input"
                                 value={password}
@@ -145,8 +149,10 @@ const Login: React.FC = () => {
                             />
                         </div>
                         <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end' }}>
-                            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600' }}>
+                            <label htmlFor="show-password" style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)', fontWeight: '600' }}>
                                 <input
+                                    id="show-password"
+                                    name="show-password"
                                     type="checkbox"
                                     checked={showPassword}
                                     onChange={(e) => setShowPassword(e.target.checked)}

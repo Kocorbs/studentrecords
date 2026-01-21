@@ -200,8 +200,10 @@ const Settings: React.FC = () => {
                     <div className="card-header">🔐 Account Security</div>
                     <div className="card-body">
                         <div className="form-group">
-                            <label className="form-label">Current Password</label>
+                            <label htmlFor="currentPassword" className="form-label">Current Password</label>
                             <input
+                                id="currentPassword"
+                                name="currentPassword"
                                 type="password"
                                 value={currentPassword}
                                 onChange={(e) => setCurrentPassword(e.target.value)}
@@ -211,8 +213,10 @@ const Settings: React.FC = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="form-label">New Password</label>
+                            <label htmlFor="newPassword" className="form-label">New Password</label>
                             <input
+                                id="newPassword"
+                                name="newPassword"
                                 type="password"
                                 value={newPassword}
                                 onChange={(e) => setNewPassword(e.target.value)}
@@ -222,8 +226,10 @@ const Settings: React.FC = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label className="form-label">Confirm New Password</label>
+                            <label htmlFor="confirmPassword" className="form-label">Confirm New Password</label>
                             <input
+                                id="confirmPassword"
+                                name="confirmPassword"
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -392,8 +398,10 @@ const Settings: React.FC = () => {
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
-                                <label className="form-label">Username *</label>
+                                <label htmlFor="add_username" className="form-label">Username *</label>
                                 <input
+                                    id="add_username"
+                                    name="username"
                                     type="text"
                                     value={newUser.username}
                                     onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
@@ -402,8 +410,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Password *</label>
+                                <label htmlFor="add_password" className="form-label">Password *</label>
                                 <input
+                                    id="add_password"
+                                    name="password"
                                     type="password"
                                     value={newUser.password}
                                     onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
@@ -412,8 +422,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Full Name *</label>
+                                <label htmlFor="add_full_name" className="form-label">Full Name *</label>
                                 <input
+                                    id="add_full_name"
+                                    name="full_name"
                                     type="text"
                                     value={newUser.full_name}
                                     onChange={(e) => setNewUser({ ...newUser, full_name: e.target.value })}
@@ -422,8 +434,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Email *</label>
+                                <label htmlFor="add_email" className="form-label">Email *</label>
                                 <input
+                                    id="add_email"
+                                    name="email"
                                     type="email"
                                     value={newUser.email}
                                     onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
@@ -432,8 +446,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Role *</label>
+                                <label htmlFor="add_role" className="form-label">Role *</label>
                                 <select
+                                    id="add_role"
+                                    name="role"
                                     value={newUser.role}
                                     onChange={(e) => setNewUser({ ...newUser, role: e.target.value as 'admin' | 'user' })}
                                     className="form-control"
@@ -470,8 +486,10 @@ const Settings: React.FC = () => {
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
-                                <label className="form-label">Username</label>
+                                <label htmlFor="edit_username" className="form-label">Username</label>
                                 <input
+                                    id="edit_username"
+                                    name="username"
                                     type="text"
                                     value={editingUser.username}
                                     onChange={(e) => setEditingUser({ ...editingUser, username: e.target.value })}
@@ -479,8 +497,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Full Name</label>
+                                <label htmlFor="edit_full_name" className="form-label">Full Name</label>
                                 <input
+                                    id="edit_full_name"
+                                    name="full_name"
                                     type="text"
                                     value={editingUser.full_name}
                                     onChange={(e) => setEditingUser({ ...editingUser, full_name: e.target.value })}
@@ -488,8 +508,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Email</label>
+                                <label htmlFor="edit_email" className="form-label">Email</label>
                                 <input
+                                    id="edit_email"
+                                    name="email"
                                     type="email"
                                     value={editingUser.email}
                                     onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
@@ -497,8 +519,10 @@ const Settings: React.FC = () => {
                                 />
                             </div>
                             <div className="form-group">
-                                <label className="form-label">Role</label>
+                                <label htmlFor="edit_role" className="form-label">Role</label>
                                 <select
+                                    id="edit_role"
+                                    name="role"
                                     value={editingUser.role}
                                     onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value as 'admin' | 'user' })}
                                     className="form-control"

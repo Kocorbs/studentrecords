@@ -115,7 +115,10 @@ const StudentList: React.FC = () => {
                 <div className="card-body" style={{ display: 'flex', gap: '20px', padding: '24px' }}>
                     <div style={{ flex: 1, position: 'relative' }}>
                         <span style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}>🔍</span>
+                        <label htmlFor="search-students" style={{ display: 'none' }}>Search Students</label>
                         <input
+                            id="search-students"
+                            name="search"
                             type="text"
                             placeholder="Search by name or ID number..."
                             className="form-control"
@@ -125,7 +128,10 @@ const StudentList: React.FC = () => {
                         />
                     </div>
                     <div style={{ width: '200px' }}>
+                        <label htmlFor="filter-category" style={{ display: 'none' }}>Filter Category</label>
                         <select
+                            id="filter-category"
+                            name="category"
                             className="form-control"
                             value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}

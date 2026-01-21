@@ -182,8 +182,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             <h3 style={{ color: COLORS.primary, marginBottom: '15px' }}>👤 Basic Information</h3>
 
                             <div className="form-group">
-                                <label className="form-label">ID Number *</label>
+                                <label htmlFor="username" className="form-label">ID Number *</label>
                                 <input
+                                    id="username"
                                     type="text"
                                     name="username"
                                     value={formData.username}
@@ -199,8 +200,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">First Name *</label>
+                                <label htmlFor="first_name" className="form-label">First Name *</label>
                                 <input
+                                    id="first_name"
                                     type="text"
                                     name="first_name"
                                     value={formData.first_name}
@@ -216,8 +218,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Middle Name</label>
+                                <label htmlFor="middle_name" className="form-label">Middle Name</label>
                                 <input
+                                    id="middle_name"
                                     type="text"
                                     name="middle_name"
                                     value={formData.middle_name}
@@ -228,8 +231,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Last Name *</label>
+                                <label htmlFor="last_name" className="form-label">Last Name *</label>
                                 <input
+                                    id="last_name"
                                     type="text"
                                     name="last_name"
                                     value={formData.last_name}
@@ -245,8 +249,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Grade Level</label>
+                                <label htmlFor="grade_level" className="form-label">Grade Level</label>
                                 <select
+                                    id="grade_level"
                                     name="grade_level"
                                     value={formData.grade_level}
                                     onChange={handleInputChange}
@@ -263,8 +268,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             </div>
 
                             <div className="form-group">
-                                <label className="form-label">Status *</label>
+                                <label htmlFor="category" className="form-label">Status *</label>
                                 <select
+                                    id="category"
                                     name="category"
                                     value={formData.category}
                                     onChange={handleInputChange}
@@ -284,8 +290,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                             {showGraduateFields ? (
                                 <>
                                     <div className="form-group">
-                                        <label className="form-label">Last School Year Attended</label>
+                                        <label htmlFor="last_school_year" className="form-label">Last School Year Attended</label>
                                         <input
+                                            id="last_school_year"
                                             type="text"
                                             name="last_school_year"
                                             value={formData.last_school_year}
@@ -296,8 +303,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">Contact Number</label>
+                                        <label htmlFor="contact_number" className="form-label">Contact Number</label>
                                         <input
+                                            id="contact_number"
                                             type="text"
                                             name="contact_number"
                                             value={formData.contact_number}
@@ -308,8 +316,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">SO Number</label>
+                                        <label htmlFor="so_number" className="form-label">SO Number</label>
                                         <input
+                                            id="so_number"
                                             type="text"
                                             name="so_number"
                                             value={formData.so_number}
@@ -320,8 +329,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">Date Issued</label>
+                                        <label htmlFor="date_issued" className="form-label">Date Issued</label>
                                         <input
+                                            id="date_issued"
                                             type="date"
                                             name="date_issued"
                                             value={formData.date_issued}
@@ -331,8 +341,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">Series of Year</label>
+                                        <label htmlFor="series_year" className="form-label">Series of Year</label>
                                         <input
+                                            id="series_year"
                                             type="text"
                                             name="series_year"
                                             value={formData.series_year}
@@ -343,8 +354,9 @@ const StudentForm: React.FC<StudentFormProps> = ({ student, onSuccess, onCancel 
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="form-label">LRN (Learner Reference Number)</label>
+                                        <label htmlFor="lrn" className="form-label">LRN (Learner Reference Number)</label>
                                         <input
+                                            id="lrn"
                                             type="text"
                                             name="lrn"
                                             value={formData.lrn}
