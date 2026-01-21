@@ -16,7 +16,16 @@ const createPrismaClient = () => {
 
 // Singleton pattern to prevent multiple Prisma Client instances in development
 // In production, a new instance is created; in development, it's reused across hot reloads
-const prisma = globalThis.prisma || createPrismaClient();
+let prisma: ReturnType<typeof createPrismaClient>;
+
+if (process.env.NODE_ENV === 'production') {
+    prisma = createPrismaClient();
+} else {
+    if (!globalThis.prisma) {
+        globalThis.prisma = createPrismaClient();
+    }
+    prisma = globalThis.prisma;
+}
 
 if (process.env.NODE_ENV !== 'production') {
     globalThis.prisma = prisma;

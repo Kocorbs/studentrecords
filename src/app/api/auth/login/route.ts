@@ -3,9 +3,9 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 // Helper to verify password
-const verifyPassword = (password: string, hashed: string) => {
+const verifyPassword = async (password: string, hashed: string) => {
     try {
-        return bcrypt.compareSync(password, hashed);
+        return await bcrypt.compare(password, hashed);
     } catch (e) {
         console.error("Bcrypt error:", e);
         return false;
@@ -57,7 +57,10 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        if (user && verifyPassword(password, user.password)) {
+        const isPasswordValid = await verifyPassword(password, user.password);
+        console.log('🔐 Password verification result:', isPasswordValid);
+
+        if (user && isPasswordValid) {
             console.log('✅ Authentication successful for user ID:', user.id);
 
             // Update last login
