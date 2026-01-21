@@ -3,8 +3,8 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 // Helper to hash password
-const hashPassword = (password: string) => {
-    return bcrypt.hashSync(password, 10);
+const hashPassword = async (password: string) => {
+    return await bcrypt.hash(password, 10);
 };
 
 // GET /api/users - Get all users
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         const user = await prisma.user.create({
             data: {
                 username,
-                password: hashPassword(password),
+                password: await hashPassword(password),
                 role: role || 'user',
                 email,
                 full_name,

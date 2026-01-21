@@ -3,13 +3,13 @@ import prisma from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 // Helper to hash password
-const hashPassword = (password: string) => {
-    return bcrypt.hashSync(password, 10);
+const hashPassword = async (password: string) => {
+    return await bcrypt.hash(password, 10);
 };
 
 // Helper to verify password
-const verifyPassword = (password: string, hashed: string) => {
-    return bcrypt.compareSync(password, hashed);
+const verifyPassword = async (password: string, hashed: string) => {
+    return await bcrypt.compare(password, hashed);
 };
 
 // PUT /api/users/[id]/password - Change user password
@@ -31,7 +31,9 @@ export async function PUT(
             );
         }
 
-        if (!verifyPassword(currentPassword, user.password)) {
+        const isPasswordValid = await verifyPassword(currentPassword, user.password);
+
+        if (!isPasswordValid) {
             return NextResponse.json(
                 { error: 'Current password is incorrect' },
                 { status: 401 }
@@ -41,7 +43,7 @@ export async function PUT(
         // Update password
         await prisma.user.update({
             where: { id: Number(id) },
-            data: { password: hashPassword(newPassword) }
+            data: { password: await hashPassword(newPassword) }
         });
 
         return NextResponse.json({ success: true });
